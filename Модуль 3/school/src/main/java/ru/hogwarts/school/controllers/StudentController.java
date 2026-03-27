@@ -1,7 +1,6 @@
-package ru.hogwarts.school.controller;
+package ru.hogwarts.school.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
@@ -35,12 +34,12 @@ public class StudentController {
     }
 
     @PostMapping
-    public Student createStudent(@RequestBody Student student){
+    public Student createStudent(Student student){
         return studentService.createStudent(student);
     }
 
     @PutMapping
-    public Student editStudent(@RequestBody Student student) {
+    public Student editStudent(Student student) {
         return studentService.editStudent(student);
     }
 
