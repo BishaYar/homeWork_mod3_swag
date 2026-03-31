@@ -23,7 +23,7 @@ public class FacultyController {
         return facultyService.findFaculty(id);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public Collection<Faculty> getAllFaculty() {
         return facultyService.getAllFaculties();
     }
@@ -31,6 +31,11 @@ public class FacultyController {
     @GetMapping("color")
     public Collection<Faculty> getAllFacultyOneColor(@RequestParam String color) {
         return facultyService.getAllFacultiesOneColor(color);
+    }
+
+    @GetMapping
+    public Faculty findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(@RequestParam(required = false) String name, @RequestParam(required = false) String color) {
+        return facultyService.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(name, color);
     }
 
     @PostMapping

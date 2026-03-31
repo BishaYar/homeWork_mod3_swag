@@ -42,4 +42,8 @@ public class FacultyService {
                 .collect(Collectors.toList());
     }
 
+    public Faculty findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(String name, String color){
+        return facultyRepository.findByNameContainingIgnoreCaseOrColorContainingIgnoreCase(name, color);
+    }
+
 }
