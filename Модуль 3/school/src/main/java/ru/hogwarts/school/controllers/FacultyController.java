@@ -39,13 +39,13 @@ public class FacultyController {
     }
 
     @PostMapping
-    public Faculty createFaculty(Faculty faculty){
+    public Faculty createFaculty(@RequestBody Faculty faculty){
         return facultyService.createFaculty(faculty);
     }
 
-    @PutMapping
-    public Faculty editFaculty(Faculty faculty){
-        return facultyService.editFaculty(faculty);
+    @PutMapping("{id}")
+    public Faculty editFaculty(@PathVariable Long id, @RequestBody Faculty faculty){
+        return facultyService.editFaculty(id, faculty);
     }
 
     @DeleteMapping("{id}")

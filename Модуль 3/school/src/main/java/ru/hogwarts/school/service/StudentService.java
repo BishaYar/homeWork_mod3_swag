@@ -1,6 +1,8 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
+
+import ru.hogwarts.school.exception.EntityNotFoundException;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.StudentRepository;
@@ -23,14 +25,21 @@ public class StudentService {
     }
 
     public Student findStudent(Long id) {
-        return studentRepository.findById(id).get();
+        return studentRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Not found student"));
     }
 
-    public Student editStudent(Student student){
-        return studentRepository.save(student);
+    public Student editStudent(Long id, Student student) {
+        Student student1 = findStudent(id);
+
+        student1.setName(student.getName());
+        student1.setAge(student.getAge());
+
+        return studentRepository.save(student1);
     }
 
     public void deleteStudent(Long id) {
+        Student student = studentRepository.findById(id)
+                .orElseThrow(()->new EntityNotFoundException("Not found student"));
         studentRepository.deleteById(id);
     }
 
