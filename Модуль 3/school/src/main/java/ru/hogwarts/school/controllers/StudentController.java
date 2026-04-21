@@ -1,8 +1,9 @@
-package ru.hogwarts.school.controller;
+package ru.hogwarts.school.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
@@ -24,14 +25,29 @@ public class StudentController {
         return studentService.findStudent(id);
     }
 
-    @GetMapping
+    @GetMapping("/all")
     public Collection<Student> getAllStudent() {
         return studentService.getAllStudents();
     }
 
-    @GetMapping("/age/{age}")
+    @GetMapping
+    public Collection<Student> findByAgeBetween(@RequestParam int min_age, @RequestParam int max_age) {
+        return studentService.findByAgeBetween(min_age, max_age);
+    }
+
+    @GetMapping("/age")
     public Collection<Student> getAllStudentOneAge(@RequestParam int age) {
         return studentService.getAllStudentsOneAge(age);
+    }
+
+    @GetMapping("/{id}/faculty")
+    public Faculty findFacultyByStudentId(@PathVariable Long id) {
+        return studentService.findFacultyByStudentId(id);
+    }
+
+    @GetMapping("/all/{faculty_id}")
+    public Collection<Student> findAllStudentByFacultyId(@RequestParam Long faculty_id) {
+        return studentService.findAllStudentByFacultyId(faculty_id);
     }
 
     @PostMapping
@@ -39,15 +55,15 @@ public class StudentController {
         return studentService.createStudent(student);
     }
 
-    @PutMapping
-    public Student editStudent(@RequestBody Student student) {
-        return studentService.editStudent(student);
+    @PutMapping("{id}")
+    public Student editStudent(@PathVariable Long id, @RequestBody Student student) {
+        return studentService.editStudent(id, student);
     }
 
     @DeleteMapping("{id}")
-    public void removeStudent(@RequestParam Long id){
+    public ResponseEntity<Void> removeStudent(@PathVariable Long id){
         studentService.deleteStudent(id);
+        return ResponseEntity.noContent().build();
     }
-
 
 }
