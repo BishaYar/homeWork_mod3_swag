@@ -16,9 +16,9 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 
+import static java.nio.file.Path.of;
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @Service
@@ -40,7 +40,7 @@ public class AvatarService {
     public void uploadAvatar(Long id, MultipartFile file) throws IOException {
         Student student = studentService.findStudent(id);
 
-        Path filePath = Path.of(avatarPath, id + ".jpg");
+        Path filePath = of(avatarPath);
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
 
