@@ -1,0 +1,25 @@
+CREATE TABLE car (
+  id BIGINT NOT NULL,
+  price INTEGER NOT NULL,
+  marka VARCHAR(255) NOT NULL,
+  model VARCHAR(255) NOT NULL,
+  CONSTRAINT car_pkey PRIMARY KEY(id)
+)
+WITH (oids = false);
+
+
+CREATE TABLE person (
+  id BIGINT NOT NULL,
+  age INTEGER DEFAULT 18 NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  permisCar BOOLEAN DEFAULT FALSE,
+  car_id BIGINT,
+  CONSTRAINT person_pkey PRIMARY KEY(id),
+  CONSTRAINT age_constraint CHECK (age > 17),
+  CONSTRAINT key_car FOREIGN KEY (car_id)
+    REFERENCES public.car(id)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION
+    NOT DEFERRABLE
+)
+WITH (oids = false);

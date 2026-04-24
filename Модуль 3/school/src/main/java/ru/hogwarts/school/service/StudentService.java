@@ -8,6 +8,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.StudentRepository;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -21,6 +22,7 @@ public class StudentService {
     }
 
     public Student createStudent(Student student) {
+        student.setId(null);
         return studentRepository.save(student);
     }
 
@@ -34,7 +36,7 @@ public class StudentService {
         student1.setName(student.getName());
         student1.setAge(student.getAge());
 
-        return studentRepository.save(student1);
+        return studentRepository.save(student);
     }
 
     public void deleteStudent(Long id) {
@@ -60,7 +62,7 @@ public class StudentService {
 
     public Faculty findFacultyByStudentId(Long id) {
         if (!studentRepository.existsById(id)) {
-            return null; // Или выбрасываем исключение StudentNotFoundException
+            return null;
         }
         return studentRepository.findById(id)
                 .map(Student::getFaculty)
@@ -71,5 +73,18 @@ public class StudentService {
         return studentRepository.findAll().stream()
                 .filter(item-> Objects.equals(item.getFaculty().getId(), faculty_id))
                 .collect(Collectors.toList());
+    }
+
+    public Integer getCount(){
+        return studentRepository.getCount();
+    }
+
+    public Double getSrAge() {
+        Double avgAge = studentRepository.getSrAge();
+        return avgAge != null ? avgAge : 0.0;
+    }
+
+    public List<Student> getStudentsLimit(){
+        return studentRepository.getStudents();
     }
 }
