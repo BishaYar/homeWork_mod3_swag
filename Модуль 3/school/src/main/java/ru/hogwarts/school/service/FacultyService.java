@@ -36,7 +36,7 @@ public class FacultyService {
     }
 
     public void deleteFaculty(long id) {
-        Faculty faculty = facultyRepository.findById(id)
+        facultyRepository.findById(id)
                 .orElseThrow(()->new EntityNotFoundException("Not found faculty"));
         facultyRepository.deleteById(id);
     }
