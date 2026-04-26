@@ -27,7 +27,7 @@ public class StudentService {
     }
 
     public Student findStudent(Long id) {
-        return studentRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Not found student"));
+        return studentRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Not found student"));
     }
 
     public Student editStudent(Long id, Student student) {
@@ -40,8 +40,8 @@ public class StudentService {
     }
 
     public void deleteStudent(Long id) {
-        studentRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Not found student"));
+        Student student = studentRepository.findById(id)
+                .orElseThrow(()->new EntityNotFoundException("Not found student"));
         studentRepository.deleteById(id);
     }
 
@@ -52,7 +52,7 @@ public class StudentService {
     public Collection<Student> getAllStudentsOneAge(int age) {
         return studentRepository.findAll()
                 .stream()
-                .filter(item -> item.getAge() == age)
+                .filter(item->item.getAge() == age)
                 .collect(Collectors.toList());
     }
 
@@ -69,13 +69,13 @@ public class StudentService {
                 .orElse(null);
     }
 
-    public Collection<Student> findAllStudentByFacultyId(Long faculty_id) {
+    public Collection<Student> findAllStudentByFacultyId(Long faculty_id){
         return studentRepository.findAll().stream()
-                .filter(item -> Objects.equals(item.getFaculty().getId(), faculty_id))
+                .filter(item-> Objects.equals(item.getFaculty().getId(), faculty_id))
                 .collect(Collectors.toList());
     }
 
-    public Integer getCount() {
+    public Integer getCount(){
         return studentRepository.getCount();
     }
 
@@ -84,7 +84,7 @@ public class StudentService {
         return avgAge != null ? avgAge : 0.0;
     }
 
-    public List<Student> getStudentsLimit() {
+    public List<Student> getStudentsLimit(){
         return studentRepository.getStudents();
     }
 }
