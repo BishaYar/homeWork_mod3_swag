@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class StudentService {
@@ -64,6 +65,16 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
+    public Collection<String> getAllStudentsForA() {
+        logger.info("Was invoked method for find all students name A");
+        return studentRepository.findAll()
+                .stream()
+                .map(item->item.getName().toUpperCase())
+                .filter(item->item.startsWith("А"))
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
     public Collection<Student> getAllStudentsOneAge(int age) {
         logger.info("Was invoked method for find all students one age");
         return studentRepository.findAll()
@@ -105,8 +116,25 @@ public class StudentService {
         return avgAge != null ? avgAge : 0.0;
     }
 
+    public Double getSrAgeTwo() {
+        logger.info("Was invoked method for get avg(age) students Stream API");
+        Double avgAge = studentRepository.findAll()
+                .stream()
+                .mapToInt(item-> item.getAge())
+                .average().orElse(0.0);
+
+        return avgAge;
+    }
+
     public List<Student> getStudentsLimit() {
         logger.info("Was invoked method for get limit students");
         return studentRepository.getStudents();
+    }
+
+    public Integer getSum() {
+        return Stream.iterate(1, a -> a + 1)
+                .parallel()
+                .limit(1_000_000)
+                .reduce(0, (a, b) -> a + b);
     }
 }
