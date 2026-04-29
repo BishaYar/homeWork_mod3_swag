@@ -118,12 +118,11 @@ public class StudentService {
 
     public Double getSrAgeTwo() {
         logger.info("Was invoked method for get avg(age) students Stream API");
-        Double avgAge = studentRepository.findAll()
+
+        return studentRepository.findAll()
                 .stream()
                 .mapToInt(item-> item.getAge())
                 .average().orElse(0.0);
-
-        return avgAge;
     }
 
     public List<Student> getStudentsLimit() {
@@ -136,5 +135,81 @@ public class StudentService {
                 .parallel()
                 .limit(1_000_000)
                 .reduce(0, (a, b) -> a + b);
+    }
+
+    public void printParallel() {
+
+        Collection<String> printTwo = studentRepository.findAll()
+                .stream()
+                .map(item->item.getName())
+                .limit(2)
+                .collect(Collectors.toList());
+
+        Collection<String> printForTh = studentRepository.findAll()
+                .stream()
+                .skip(2)
+                .map(item->item.getName())
+                .limit(2)
+                .collect(Collectors.toList());
+
+        Collection<String> printForFive = studentRepository.findAll()
+                .stream()
+                .skip(4)
+                .map(item->item.getName())
+                .limit(2)
+                .collect(Collectors.toList());
+
+        printNameStudent(printTwo);
+
+        new Thread(()->
+                printNameStudent(printForTh)).start();
+
+
+        new Thread(()->
+                printNameStudent(printForFive)).start();
+
+    }
+
+    public void printSynchronized() {
+
+        Collection<String> printTwo = studentRepository.findAll()
+                .stream()
+                .map(item->item.getName())
+                .limit(2)
+                .collect(Collectors.toList());
+
+        synchronized(printTwo) {
+            printNameStudent(printTwo);
+        }
+
+        Collection<String> printForTh = studentRepository.findAll()
+                .stream()
+                .skip(2)
+                .map(item->item.getName())
+                .limit(2)
+                .collect(Collectors.toList());
+
+        synchronized(printForTh) {
+            new Thread(() ->
+                    printNameStudent(printForTh)).start();
+        }
+
+        Collection<String> printForFive = studentRepository.findAll()
+                .stream()
+                .skip(4)
+                .map(item->item.getName())
+                .limit(2)
+                .collect(Collectors.toList());
+
+        synchronized(printForFive) {
+            new Thread(() ->
+                    printNameStudent(printForFive)).start();
+        }
+
+    }
+
+    public void printNameStudent(Collection<String> collection) {
+
+        System.out.println(collection);
     }
 }
