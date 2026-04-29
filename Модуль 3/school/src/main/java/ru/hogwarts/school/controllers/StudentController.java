@@ -31,6 +31,11 @@ public class StudentController {
         return studentService.getAllStudents();
     }
 
+    @GetMapping("/all_A")
+    public Collection<String> getAllStudentForA() {
+        return studentService.getAllStudentsForA();
+    }
+
     @GetMapping
     public Collection<Student> findByAgeBetween(@RequestParam int min_age, @RequestParam int max_age) {
         return studentService.findByAgeBetween(min_age, max_age);
@@ -44,6 +49,11 @@ public class StudentController {
     @GetMapping("/srAge")
     public Double getSrAgeStudents() {
         return studentService.getSrAge();
+    }
+
+    @GetMapping("/srAgeTwo")
+    public Double getSrAgeStudentsTwo() {
+        return studentService.getSrAgeTwo();
     }
 
     @GetMapping("/limit")
@@ -64,6 +74,11 @@ public class StudentController {
     @GetMapping("/all/{faculty_id}")
     public Collection<Student> findAllStudentByFacultyId(@RequestParam Long faculty_id) {
         return studentService.findAllStudentByFacultyId(faculty_id);
+    }
+
+    @GetMapping("/sum")
+    public Integer getSum() {
+        return studentService.getSum();
     }
 
     @PostMapping

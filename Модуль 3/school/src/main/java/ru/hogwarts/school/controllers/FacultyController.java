@@ -28,6 +28,11 @@ public class FacultyController {
         return facultyService.getAllFaculties();
     }
 
+    @GetMapping("/maxLengthName")
+    public String getMaxNameFaculty() {
+        return facultyService.getMaxNameFaculty();
+    }
+
     @GetMapping("color")
     public Collection<Faculty> getAllFacultyOneColor(@RequestParam String color) {
         return facultyService.getAllFacultiesOneColor(color);
